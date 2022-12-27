@@ -1,13 +1,21 @@
+import { ChakraProvider } from '@chakra-ui/react';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+import { Toaster } from 'react-hot-toast';
 import App from './App';
+import AuthProvider from './context/AuthProvider';
+import './index.css';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <ChakraProvider>
+    <AuthProvider>
+      <Toaster />
+      <App />
+    </AuthProvider>
+    </ChakraProvider>
   </React.StrictMode>
 );
 

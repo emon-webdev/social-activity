@@ -1,11 +1,12 @@
-import React from 'react';
+import React from "react";
+import AddPost from "./AddPost";
 
 const Home = () => {
-    return (
-        <div>
-            <h2>Home</h2>
-        </div>
-    );
+  return (
+    <div className="container">
+      <AddPost />
+    </div>
+  );
 };
 
 export default Home;

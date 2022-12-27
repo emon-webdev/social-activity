@@ -26,19 +26,27 @@ const Register = () => {
     console.log(data);
     console.log(errors);
 
-
-
-
-
-
-
-
-
-
-
-
+    createUser(data.email, data.password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        updateUserProfile(data.name)
+          .then(
+            //verify Email
+            verifyEmail()
+              .then(() => {
+                toast.success("Please check your email for verification link.");
+                setLoading(false);
+                navigate(from, { replace: true });
+              })
+              .catch((error) => console.error(error.message))
+          )
+          .catch((error) => console.error(error.message));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
-
 
   //google signin
   const handleGoogleSignIn = () => {

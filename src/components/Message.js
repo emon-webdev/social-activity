@@ -1,11 +1,13 @@
-import React from 'react';
+import React from "react";
 
 const Message = () => {
-    return (
-        <div>
-            <h2>Message</h2>
-        </div>
-    );
+  return (
+    <div className="message-area">
+      <div className="container">
+        <h2>Message</h2>
+      </div>
+    </div>
+  );
 };
 
 export default Message;

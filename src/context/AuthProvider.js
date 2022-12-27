@@ -21,7 +21,6 @@ const googleProvider = new GoogleAuthProvider();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
   //1. Create User
   const createUser = (email, password) => {
     setLoading(true);
@@ -29,11 +28,11 @@ const AuthProvider = ({ children }) => {
   };
 
   //   2. Update Name
-  const updateUserProfile = (name, photo) => {
+  const updateUserProfile = (name) => {
     setLoading(true);
     return updateProfile(auth.currentUser, {
       displayName: name,
-      photoURL: photo,
+      // photoURL: photo,
     });
   };
 

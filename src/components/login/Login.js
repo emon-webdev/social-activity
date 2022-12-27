@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
@@ -13,13 +13,25 @@ const Login = () => {
   const { signin, loading, setLoading, resetPassword, signInWithGoogle } =
     useContext(AuthContext);
 
+  const [loginError, setLoginError] = useState("");
+
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from.pathname || "/";
 
   const handleLogin = (data) => {
-    console.log(data);
-    console.log(errors);
+    setLoginError("");
+    //sign in with email and password
+    signin(data.email, data.password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        navigate('/')
+      })
+      .catch((error) => {
+        console.log(error.message);
+        setLoginError(error.message);
+      });
   };
 
   const handleGoogleSignIn = () => {
@@ -86,6 +98,7 @@ const Login = () => {
             />
           </div>
         </form>
+        {loginError && <p className="text-red-500 text-sm">{loginError}</p>}
         <p className="text-xs text-center mt-3  text-[#D53F8C]">
           Don't have an account{" "}
           <Link className="underline" to="/signup">

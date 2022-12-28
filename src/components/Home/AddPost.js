@@ -1,20 +1,22 @@
 import {
-    Avatar,
-    Box,
-    Button,
-    Card,
-    CardBody,
-    CardFooter,
-    CardHeader,
-    Flex,
-    Heading,
-    Text,
-    Textarea
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Flex,
+  Heading,
+  Text,
+  Textarea
 } from "@chakra-ui/react";
 import { format } from "date-fns";
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 import { BsCheckLg, BsThreeDotsVertical } from "react-icons/bs";
+import { FcLike } from "react-icons/fc";
 import { AuthContext } from "../../context/AuthProvider";
 import postImg from "../../images/plcmg.jpg";
 
@@ -26,9 +28,8 @@ const AddPost = () => {
   } = useForm();
   const currentDate = new Date();
   const time = currentDate.getHours() + ":" + currentDate.getMinutes();
-  const date = format(currentDate, "PP");
+  const day = format(currentDate, "PP");
   const { user } = useContext(AuthContext);
-  console.log(user);
   const imageHostKey = process.env.REACT_APP_IMGBB_KEY;
   let [postDescription, setPostDescription] = React.useState("");
   const [loveCount, setLoveCount] = useState(0);
@@ -49,32 +50,30 @@ const AddPost = () => {
     })
       .then((res) => res.json())
       .then((imgData) => {
-        if (imgData.success) {
-          console.log(imgData.data.url);
-          const post = {
-            date,
+        if (imgData?.success) {
+          const postInfo = {
+            day,
             time,
             userName: user?.displayName,
             userEmail: user?.email,
-            reactions: loveCount,
             img: imgData.data.url,
             describe: postDescription,
+            reaction: 0,
           };
-          console.log(post);
+          console.log(postInfo);
           //save information to the database
-          /* fetch("https://car-showroom-server.vercel.app/products", {
+          fetch("http://localhost:5000/posts", {
             method: "POST",
             headers: {
               "content-type": "application/json",
             },
-            body: JSON.stringify(products),
+            body: JSON.stringify(postInfo),
           })
             .then((res) => res.json())
-            .then((result) => {
-              console.log(result);
-              toast.success(`Product added successfully`);
-              navigate("/dashboard/myProducts");
-            }); */
+            .then((data) => {
+              console.log(data);
+              toast.success("Post Successfully");
+            });
         }
       });
   };
@@ -118,7 +117,7 @@ const AddPost = () => {
                 required
                 style={{
                   border: "0px solid #444444",
-                  height: "300px",
+                  height: "245px",
                   width: "100%",
                   background: `url(${postImg}) no-repeat left top`,
                   paddingLeft: "4px",
@@ -160,51 +159,50 @@ const AddPost = () => {
                 },
               }}
             >
-              {/* {loveCount.length === 1 ? (
+              <Button
+                onClick={() => setLoveCount(loveCount + 1)}
+                flex="1"
+                variant="ghost"
+                disabled
+              >
+                <FcLike
+                  variant="ghost"
+                  colorScheme="gray"
+                  aria-label="See menu"
+                />
+                Love {loveCount}
+              </Button>
+
+              {user?.uid ? (
                 <Button
-                  onClick={() => setLoveCount(loveCount + 1)}
+                  style={{ background: "#d53f8c", color: "white" }}
+                  type="submit"
+                  as={Button}
+                  colorScheme="pink"
+                  flex="1"
+                  variant="ghost"
+                >
+                  <BsCheckLg
+                    variant="ghost"
+                    colorScheme="pink"
+                    aria-label="See menu"
+                    className="ml-2"
+                  />
+                  Post
+                </Button>
+              ) : (
+                <Button
+                  style={{ background: "#d53f8c", color: "white" }}
+                  type="submit"
+                  as={Button}
+                  colorScheme="pink"
                   flex="1"
                   variant="ghost"
                   disabled
                 >
-                  <FcLike
-                    variant="ghost"
-                    colorScheme="gray"
-                    aria-label="See menu"
-                  />
-                  Love {loveCount}
+                  Please Sign In
                 </Button>
-              ) : ( */}
-              {/* <Button
-                  onClick={() => setLoveCount(loveCount + 1)}
-                  flex="1"
-                  variant="ghost"
-                  required
-                >
-                  <FcLike
-                    variant="ghost"
-                    colorScheme="gray"
-                    aria-label="See menu"
-                  />
-                  Love {loveCount}
-                </Button> */}
-              {/* )} */}
-
-              <Button
-                type="submit"
-                as={Button}
-                colorScheme="pink"
-                flex="1"
-                variant="ghost"
-              >
-                <BsCheckLg
-                  variant="ghost"
-                  colorScheme="pink"
-                  aria-label="See menu"
-                  className="ml-2"
-                />
-                Post
-              </Button>
+              )}
 
               {/* <Button flex="1" variant="ghost">
               <BiShare

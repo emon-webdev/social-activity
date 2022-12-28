@@ -14,3 +14,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+.post-card {
+  min-width: 300px !important;
+  min-height: 570px !important;
+}

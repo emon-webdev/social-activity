@@ -9,7 +9,8 @@ const Login = () => {
     formState: { errors },
     handleSubmit,
   } = useForm();
-
+  // const [userEmail, setUserEmail] = useState("");
+  // console.log(userEmail);
   const { signin, loading, setLoading, resetPassword, signInWithGoogle } =
     useContext(AuthContext);
 
@@ -26,7 +27,7 @@ const Login = () => {
       .then((result) => {
         const user = result.user;
         console.log(user);
-        navigate('/')
+        navigate(from, { replace: true });
       })
       .catch((error) => {
         console.log(error.message);
@@ -46,6 +47,19 @@ const Login = () => {
       .catch((error) => console.error(error));
   };
 
+  //reset password
+  // const handleResetPassword = () => {
+  //   resetPassword(userEmail)
+  //     .then(() => {
+  //       toast.success("please check your email for reset password");
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //       toast.error(error.message);
+  //       setLoading(false);
+  //     });
+  // };
+
   return (
     <div className="h-screen   flex justify-center items-center flex-col max-w-lg mx-auto">
       <div className="w-full p-12 border">
@@ -58,6 +72,7 @@ const Login = () => {
               Email
             </label>
             <input
+              // onChange={(event) => setUserEmail(event.target.value)}
               type="email"
               {...register("email", { required: "Email is Required" })}
               className="w-full px-4 py-3 border"
@@ -86,7 +101,10 @@ const Login = () => {
             {errors.password && (
               <p className="text-red-600 text-sm">{errors.password?.message}</p>
             )}
-            <button className="text-xs hover:underline text-[#D53F8C]">
+            <button
+              // onClick={handleResetPassword}
+              className="text-xs hover:underline text-[#D53F8C]"
+            >
               Forgot password?
             </button>
           </div>

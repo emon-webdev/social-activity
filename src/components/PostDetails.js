@@ -12,20 +12,21 @@ import {
   Text
 } from "@chakra-ui/react";
 import React, { useContext } from "react";
-import { BiShare } from "react-icons/bi";
-import { BsThreeDotsVertical } from "react-icons/bs";
+import { AiOutlineWechat } from "react-icons/ai";
+import { BsFillShareFill, BsThreeDotsVertical } from "react-icons/bs";
 import { FcLike } from "react-icons/fc";
-import { Link } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../context/AuthProvider";
-
-const AllPost = ({ posts }) => {
+const PostDetails = () => {
+  const singlePost = useLoaderData();
+  console.log(singlePost)
   const { user } = useContext(AuthContext);
-  const { img, userName, userEmail, _id, describe } = posts;
-  console.log(_id)
+  const { img, date, userName, time, userEmail, describe } = singlePost;
+  console.log(singlePost);
   return (
-    <div className="post-area mx-auto pb-12">
+    <div className="post-area mx-auto py-16">
       <div>
-        <Card className="mx-auto post-card" >
+        <Card className="mx-auto" maxW="xl">
           <CardHeader>
             <Flex spacing="4">
               <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
@@ -53,13 +54,19 @@ const AllPost = ({ posts }) => {
           </CardHeader>
 
           <Image
-            className="h-[250px]"
+            style={{ backgroundSize: "cover", backgroundPosition: "center" }}
+            className="h-[300px]"
             objectFit="cover"
             src={img}
             alt="Chakra UI"
           />
           <CardBody>
-            <Text>{describe.slice(0, 150)}</Text>
+            <Box>
+              <Heading size="sm">
+                Date: {date} Time: {time}
+              </Heading>
+            </Box>
+            <Text>{describe}</Text>
           </CardBody>
 
           <CardFooter
@@ -79,33 +86,23 @@ const AllPost = ({ posts }) => {
               />
               Love
             </Button>
-            {/* <Button flex="1" variant="ghost">
+            <Button flex="1" variant="ghost">
               <AiOutlineWechat
                 variant="ghost"
                 colorScheme="gray"
                 aria-label="See menu"
               />
               Comment
-            </Button> */}
-            <Link flex="1" variant="ghost" to={`/post/${_id}`}>
-              <Button flex="1"  variant="ghost">
-                <BiShare 
-                  variant="ghost"
-                  colorScheme="gray"
-                  aria-label="See menu"
-                />
-                Details
-              </Button>
-            </Link>
+            </Button>
 
-            {/* <Button flex="1" variant="ghost">
+            <Button flex="1" variant="ghost">
               <BsFillShareFill
                 variant="ghost"
                 colorScheme="gray"
                 aria-label="See menu"
               />
               Share
-            </Button> */}
+            </Button>
           </CardFooter>
         </Card>
       </div>
@@ -113,4 +110,4 @@ const AllPost = ({ posts }) => {
   );
 };
 
-export default AllPost;
+export default PostDetails;

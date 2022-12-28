@@ -6,38 +6,51 @@ import Login from "../components/login/Login";
 import Register from "../components/login/Register";
 import Media from "../components/Media";
 import Message from "../components/Message";
+import PostDetails from "../components/PostDetails";
 import Main from "./Main";
+import PrivateRoute from "./PrivateRoute";
 
-export const router  =  createBrowserRouter([
-    {
-        path:'',
-        element:<Main/>,
-        errorElement:<ErrorPage/>,
-        children:[
-            {
-                path:'/',
-                element:<Home/>
-            },
-            {
-                path:'/media',
-                element:<Media/>
-            },
-            {
-                path:'/message',
-                element:<Message/>
-            },
-            {
-                path:'/about',
-                element:<About/>
-            },
-            {
-                path:'/signin',
-                element:<Login/>
-            },
-            {
-                path:'/signup',
-                element:<Register/>
-            },
-        ]
-    }
+export const router = createBrowserRouter([
+  {
+    path: "",
+    element: <Main />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/media",
+        element: <Media />,
+        loader: () => fetch("http://localhost:5000/posts"),
+      },
+      {
+        path: "/post/:id",
+        element: (
+          <PrivateRoute>
+            <PostDetails />
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/posts/${params.id}`),
+      },
+      {
+        path: "/message",
+        element: <Message />,
+      },
+      {
+        path: "/about",
+        element: <About />,
+      },
+      {
+        path: "/signin",
+        element: <Login />,
+      },
+      {
+        path: "/signup",
+        element: <Register />,
+      },
+    ],
+  },
 ]);

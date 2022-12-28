@@ -1,21 +1,28 @@
+import { Spinner } from "@chakra-ui/react";
 import React, { useContext } from "react";
-import { Navigate } from "react-router-dom";
-import { AuthContext } from "../contexts/AuthProvider";
+import { Navigate, useLocation } from "react-router-dom";
+import { AuthContext } from "../context/AuthProvider";
 
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useContext(AuthContext);
+  const location = useLocation();
+  console.log(loading);
   if (loading) {
     return (
-      <div className="mx-auto text-center">
-        <div className="w-16 mx-auto h-16 border-4 border-dashed rounded-full animate-spin dark:border-violet-400"></div>
-      </div>
+      <Spinner
+        thickness="4px"
+        speed="0.65s"
+        emptyColor="gray.200"
+        color="blue.500"
+        size="xl"
+      />
     );
   }
 
   if (user && user.uid) {
     return children;
   }
-  return <Navigate to="/signin"></Navigate>;
+  return <Navigate to="/signin" state={{ from: location }} replace />;
 };
 
 export default PrivateRoute;

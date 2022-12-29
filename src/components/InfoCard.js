@@ -1,23 +1,49 @@
 import {
-    Box,
-    Button,
-    CardBody,
+    Box, CardBody,
     Heading,
     Modal,
     ModalBody,
     ModalCloseButton,
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
+    ModalContent, ModalHeader,
     ModalOverlay,
     Stack,
     StackDivider,
     Text
 } from "@chakra-ui/react";
 import React from "react";
+import { toast } from "react-hot-toast";
 
-const InfoCard = ({ info, handleUpdateMe, isOpen, onClose }) => {
-  console.log(info);
+const InfoCard = ({ info, isOpen, onClose }) => {
+
+  const handleUpdateMe = (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const name = form.name.value;
+    const email = form.email.value;
+    const university = form.university.value;
+    const address = form.address.value;
+
+    const profile = {
+      name,
+      email,
+      university,
+      address,
+    };
+    console.log(profile);
+
+    fetch(`http://localhost:5000/about/${info?._id}`, {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(profile),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        toast.success("Profile Update Success");
+      });
+  };
 
   return (
     <div>
@@ -61,7 +87,7 @@ const InfoCard = ({ info, handleUpdateMe, isOpen, onClose }) => {
       <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Create your account</ModalHeader>
+          <ModalHeader>Update your profile</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <form onSubmit={handleUpdateMe}>
@@ -117,19 +143,12 @@ const InfoCard = ({ info, handleUpdateMe, isOpen, onClose }) => {
               </div>
               <input
                 type="submit"
-                value="Save"
+                value="Update"
                 onClick={onClose}
-                className="border text-center mt-5 cursor-pointer border-[#1039AD] bg-[#1039AD] w-full h-[56px] rounded-[5px] text-white font-semibold hover:border-[#1039AD] hover:bg-transparent hover:text-[#1039AD] hover:duration-1650"
+                className="border text-center mt-5 cursor-pointer border-[#D53F8C] bg-[#D53F8C] w-full h-[50px] rounded-[5px] text-white font-semibold hover:border-[#D53F8C] hover:bg-transparent hover:text-[#D53F8C] hover:duration-1650"
               />
             </form>
           </ModalBody>
-
-          <ModalFooter>
-            <Button onClick={onClose} colorScheme="blue" mr={3}>
-              Save
-            </Button>
-            <Button onClick={onClose}>Cancel</Button>
-          </ModalFooter>
         </ModalContent>
       </Modal>
     </div>

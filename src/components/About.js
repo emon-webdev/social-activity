@@ -2,26 +2,16 @@ import {
   Box,
   Button,
   Card,
-  CardBody,
   CardHeader,
   Flex,
-  Heading,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Stack,
-  StackDivider,
-  Text,
-  useDisclosure
+  Heading, useDisclosure
 } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { FaUserEdit } from "react-icons/fa";
+import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../context/AuthProvider";
+import InfoCard from "./InfoCard";
 
 const About = () => {
   const {
@@ -31,6 +21,7 @@ const About = () => {
   } = useForm();
 
   const { user } = useContext(AuthContext);
+  const aboutInfo = useLoaderData();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleUpdateMe = (event) => {
@@ -55,7 +46,6 @@ const About = () => {
       <div className="container">
         <div>
           <Card>
-            <CardHeader></CardHeader>
             <CardHeader>
               <Flex spacing="4">
                 <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
@@ -82,120 +72,19 @@ const About = () => {
                 </Button>
               </Flex>
             </CardHeader>
-            <CardBody>
-              <Stack divider={<StackDivider />} spacing="4">
-                <Box>
-                  <Heading size="xs" textTransform="uppercase">
-                    Name
-                  </Heading>
-                  <Text pt="2" fontSize="sm">
-                    Emon Hossain
-                  </Text>
-                </Box>
-                <Box>
-                  <Heading size="xs" textTransform="uppercase">
-                    Email
-                  </Heading>
-                  <Text pt="2" fontSize="sm">
-                    emon.hossain.web@gmail.com
-                  </Text>
-                </Box>
-                <Box>
-                  <Heading size="xs" textTransform="uppercase">
-                    University
-                  </Heading>
-                  <Text pt="2" fontSize="sm">
-                    Novel Polytechnic & Textile Institute, Jhenaidah
-                  </Text>
-                </Box>
-                <Box>
-                  <Heading size="xs" textTransform="uppercase">
-                    Address
-                  </Heading>
-                  <Text pt="2" fontSize="sm">
-                    Jhenaidah, Dhaka, Bangladesh
-                  </Text>
-                </Box>
-              </Stack>
-            </CardBody>
+            {aboutInfo?.map((info) => (
+              <InfoCard
+                key={info._id}
+                isOpen={isOpen}
+                onClose={onClose}
+                info={info}
+                handleUpdateMe={handleUpdateMe}
+              />
+            ))}
           </Card>
         </div>
       </div>
       {/* Modal */}
-
-      <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Create your account</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
-            <form onSubmit={handleUpdateMe}>
-              <div className="">
-                <div className=" w-full text-sm mb-4">
-                  <label htmlFor="name" className="block mb-2 text-gray-400">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    defaultValue={'Emon Hossain'}
-                    placeholder="Name"
-                    className="w-full px-4 py-3 border"
-                  />
-                </div>
-                <div className=" w-full text-sm mb-4">
-                  <label htmlFor="name" className="block mb-2 text-gray-400">
-                    Email
-                  </label>
-                  <input
-                    type="text"
-                    name="email"
-                    defaultValue={'Email'}
-                    placeholder="Email"
-                    className="w-full px-4 py-3 border"
-                  />
-                </div>
-                <div className=" w-full text-sm mb-4">
-                  <label htmlFor="name" className="block mb-2 text-gray-400">
-                    University
-                  </label>
-                  <input
-                    type="text"
-                    name="university"
-                    defaultValue={'University'}
-                    placeholder="University"
-                    className="w-full px-4 py-3 border"
-                  />
-                </div>
-                <div className=" w-full text-sm mb-4">
-                  <label htmlFor="name" className="block mb-2 text-gray-400">
-                    Address
-                  </label>
-                  <input
-                    type="text"
-                    name="address"
-                    defaultValue={'address'}
-                    placeholder="Address"
-                    className="w-full px-4 py-3 border"
-                  />
-                </div>
-              </div>
-              <input
-                type="submit"
-                value="Save"
-                className="border text-center mt-5 cursor-pointer border-[#1039AD] bg-[#1039AD] w-full h-[56px] rounded-[5px] text-white font-semibold hover:border-[#1039AD] hover:bg-transparent hover:text-[#1039AD] hover:duration-1650"
-              />
-            </form>
-          </ModalBody>
-
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3}>
-              Save
-            </Button>
-            <Button onClick={onClose}>Cancel</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
     </div>
   );
 };

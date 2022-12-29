@@ -42,6 +42,7 @@ export const router = createBrowserRouter([
       {
         path: "/about",
         element: <About />,
+        loader: () => fetch("http://localhost:5000/about"),
       },
       {
         path: "/signin",

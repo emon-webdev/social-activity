@@ -95,7 +95,7 @@ const Header = () => {
           <Link className="font-bold text-xl " to="/">
             Social <span className="text-[#D53F8C]">Activity</span>
           </Link>
-          <ul className="flex items-center">{mainMenu}</ul>
+          <ul className="items-center hidden md:flex">{mainMenu}</ul>
           {/* <button className="p-4 lg:hidden">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -112,69 +112,77 @@ const Header = () => {
               ></path>
             </svg>
           </button> */}
-          <Menu className="">
-            <MenuButton as={Button} className="" colorScheme="pink">
-              Profile
-            </MenuButton>
-            <MenuList>
-              <MenuGroup>
-                <NavLink
-                  className="block p-2 border-b border-[#D53F8C]"
-                  to="/media"
-                  style={({ isActive }) => (isActive ? activeClass : undefined)}
-                >
-                  Media
-                </NavLink>
-                <NavLink
-                  className="block p-2 border-b border-[#D53F8C]"
-                  to="/message"
-                  style={({ isActive }) => (isActive ? activeClass : undefined)}
-                >
-                  Message
-                </NavLink>
-                <NavLink
-                  className="block p-2 border-b border-[#D53F8C]"
-                  to="/about"
-                  style={({ isActive }) => (isActive ? activeClass : undefined)}
-                >
-                  About
-                </NavLink>
-                {user?.email ? (
-                  <>
-                    <NavLink
-                      className="block p-2 border-b border-[#D53F8C]"
-                      style={({ isActive }) =>
-                        isActive ? activeClass : undefined
-                      }
-                    >
-                      <button onClick={handleSignOut}>Sign Out</button>
-                    </NavLink>
-                  </>
-                ) : (
-                  <>
-                    <NavLink
-                      className="block p-2"
-                      to="/signin"
-                      style={({ isActive }) =>
-                        isActive ? activeClass : undefined
-                      }
-                    >
-                      Sign In
-                    </NavLink>
-                    <NavLink
-                      className="block p-2 border-b border-[#D53F8C]"
-                      to="/signup"
-                      style={({ isActive }) =>
-                        isActive ? activeClass : undefined
-                      }
-                    >
-                      Sign Up
-                    </NavLink>
-                  </>
-                )}
-              </MenuGroup>
-            </MenuList>
-          </Menu>
+          <div className="md:hidden">
+            <Menu>
+              <MenuButton as={Button} className="" colorScheme="pink">
+                Profile
+              </MenuButton>
+              <MenuList>
+                <MenuGroup>
+                  <NavLink
+                    className="block py-2 px-[30px] border-b border-[#D53F8C]"
+                    to="/media"
+                    style={({ isActive }) =>
+                      isActive ? activeClass : undefined
+                    }
+                  >
+                    Media
+                  </NavLink>
+                  <NavLink
+                    className="block py-2 px-[30px] border-b border-[#D53F8C]"
+                    to="/message"
+                    style={({ isActive }) =>
+                      isActive ? activeClass : undefined
+                    }
+                  >
+                    Message
+                  </NavLink>
+                  <NavLink
+                    className="block py-2 px-[30px] border-b border-[#D53F8C]"
+                    to="/about"
+                    style={({ isActive }) =>
+                      isActive ? activeClass : undefined
+                    }
+                  >
+                    About
+                  </NavLink>
+                  {user?.email ? (
+                    <>
+                      <NavLink
+                        className="block py-2 px-[30px]"
+                        style={({ isActive }) =>
+                          isActive ? activeClass : undefined
+                        }
+                      >
+                        <button onClick={handleSignOut}>Sign Out</button>
+                      </NavLink>
+                    </>
+                  ) : (
+                    <>
+                      <NavLink
+                        className="block py-2 px-[30px] border-b border-[#D53F8C]"
+                        to="/signin"
+                        style={({ isActive }) =>
+                          isActive ? activeClass : undefined
+                        }
+                      >
+                        Sign In
+                      </NavLink>
+                      <NavLink
+                        className="block py-2 px-[30px]"
+                        to="/signup"
+                        style={({ isActive }) =>
+                          isActive ? activeClass : undefined
+                        }
+                      >
+                        Sign Up
+                      </NavLink>
+                    </>
+                  )}
+                </MenuGroup>
+              </MenuList>
+            </Menu>
+          </div>
         </div>
       </header>
     </div>

@@ -112,7 +112,7 @@ const Login = () => {
             <input
               type="submit"
               className="w-ful cursor-pointer py-3 px-8 text-white bg-[#D53F8C]"
-              value="Submit"
+              value="Sign In"
             />
           </div>
         </form>

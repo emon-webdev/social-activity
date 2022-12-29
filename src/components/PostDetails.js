@@ -19,7 +19,7 @@ import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../context/AuthProvider";
 const PostDetails = () => {
   const singlePost = useLoaderData();
-  console.log(singlePost)
+  console.log(singlePost);
   const { user } = useContext(AuthContext);
   const { img, date, userName, time, userEmail, describe } = singlePost;
   console.log(singlePost);
@@ -63,7 +63,7 @@ const PostDetails = () => {
           <CardBody>
             <Box>
               <Heading size="sm">
-                Date: {date} Time: {time}
+                Time: {time} Date: {date}
               </Heading>
             </Box>
             <Text>{describe}</Text>

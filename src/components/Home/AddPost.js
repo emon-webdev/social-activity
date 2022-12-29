@@ -7,13 +7,11 @@ import {
   CardFooter,
   CardHeader,
   Flex,
-  Heading,
-  Input,
-  Text,
+  Heading, Text,
   Textarea
 } from "@chakra-ui/react";
 import { format } from "date-fns";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { AiOutlineComment } from "react-icons/ai";
@@ -28,19 +26,17 @@ const AddPost = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const currentDate = new Date();
-  const time = currentDate.getHours() + ":" + currentDate.getMinutes();
-  const day = format(currentDate, "PP");
+  const currentDate = new Date().getTime();
+  const time = new Date(currentDate).toLocaleTimeString();
+  const date = format(currentDate, "PP");
+console.log(date, time)
   const { user } = useContext(AuthContext);
   const imageHostKey = process.env.REACT_APP_IMGBB_KEY;
   let [postDescription, setPostDescription] = React.useState("");
-  const [loveCount, setLoveCount] = useState(0);
-  const [comments, setComment] = useState("");
   let handleInputChange = (e) => {
     let inputValue = e.target.value;
     setPostDescription(inputValue);
   };
-
 
   const handleAddProduct = (data) => {
     const image = data.image[0];
@@ -55,18 +51,16 @@ const AddPost = () => {
       .then((imgData) => {
         if (imgData?.success) {
           const postInfo = {
-            day,
+            date,
             time,
             userName: user?.displayName,
             userEmail: user?.email,
             img: imgData.data.url,
             describe: postDescription,
-            reaction: 0,
-            comment: comments,
           };
           console.log(postInfo);
           //save information to the database
-          fetch("http://localhost:5000/posts", {
+          fetch("https://social-activity-server.vercel.app/posts", {
             method: "POST",
             headers: {
               "content-type": "application/json",
@@ -100,7 +94,9 @@ const AddPost = () => {
 
                   <Box>
                     <Heading size="sm">Segun Adebayo</Heading>
-                    <Text>Creator, Chakra UI</Text>
+                    <Text>
+                      {time} {date}
+                    </Text>
                   </Box>
                 </Flex>
                 {/* <IconButton icon={<BsThreeDotsVertical />} /> */}
@@ -149,6 +145,7 @@ const AddPost = () => {
                 value={postDescription}
                 onChange={handleInputChange}
                 required
+                className="border border-[D53F8C] "
                 placeholder="Here is a Post Description"
                 size="sm"
               />
@@ -164,7 +161,6 @@ const AddPost = () => {
               }}
             >
               <Button
-                onClick={() => setLoveCount(loveCount + 1)}
                 flex="1"
                 variant="ghost"
                 disabled
@@ -174,7 +170,7 @@ const AddPost = () => {
                   colorScheme="gray"
                   aria-label="See menu"
                 />
-                Love {loveCount}
+                Love
               </Button>
               <Button disabled flex="1" variant="ghost">
                 <AiOutlineComment
@@ -216,38 +212,6 @@ const AddPost = () => {
                 </Button>
               )}
             </CardFooter>
-            {/* //comment */}
-            <div
-              // style={{ display: "none !important" }}
-              justify="space-between"
-              flexWrap="wrap"
-              className="px-5 py-3"
-              sx={{
-                "& > button": {
-                  minW: "136px",
-                },
-              }}
-            >
-              <Input
-                onChange={(e) => setComment(e.target.value)}
-                className="mb-2"
-                name="comment"
-                pr="4.5rem"
-                type="text"
-                placeholder="Comment"
-                disabled
-              />
-              {/* <br /> */}
-              <Button
-                style={{ background: "#d53f8c", color: "white" }}
-                type="submit"
-                colorScheme="pink"
-                size="xs"
-                disabled
-              >
-                Add Comment
-              </Button>
-            </div>
           </Card>
         </form>
       </div>

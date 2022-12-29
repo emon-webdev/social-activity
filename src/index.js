@@ -1,4 +1,5 @@
 import { ChakraProvider } from "@chakra-ui/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { Toaster } from "react-hot-toast";
@@ -6,18 +7,19 @@ import App from "./App";
 import AuthProvider from "./context/AuthProvider";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
-
+// Create a client
+const queryClient = new QueryClient()
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    {/* <QueryClientProvider client={QueryClient}> */}
+    <QueryClientProvider client={queryClient}>
     <ChakraProvider>
       <AuthProvider>
         <Toaster />
         <App />
       </AuthProvider>
     </ChakraProvider>
-    {/* </QueryClientProvider> */}
+    </QueryClientProvider>
   </React.StrictMode>
 );
 

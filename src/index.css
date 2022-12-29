@@ -21,6 +21,12 @@ code {
 .drop-shadow-sm {
   filter: none !important;
 }
-.css-4ie1he {
+/* .css-4ie1he,
+.css-1togpkf {
   z-index: -1 !important;
+} */
+.css-r6z5ec {
+  width: 100%;
+  transform: translate3d(0px, 64px, 0px) !important;
+  z-index: 999;
 }

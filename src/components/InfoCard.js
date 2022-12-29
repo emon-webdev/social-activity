@@ -31,7 +31,7 @@ const InfoCard = ({ info, isOpen, onClose }) => {
     };
     console.log(profile);
 
-    fetch(`http://localhost:5000/about/${info?._id}`, {
+    fetch(`https://social-activity-server.vercel.app/about/${info?._id}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",

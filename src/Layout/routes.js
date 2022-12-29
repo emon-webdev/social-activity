@@ -23,7 +23,7 @@ export const router = createBrowserRouter([
       {
         path: "/media",
         element: <Media />,
-        loader: () => fetch("http://localhost:5000/posts"),
+        // loader: () => fetch("https://social-activity-server.vercel.app/posts"),
       },
       {
         path: "/post/:id",
@@ -33,7 +33,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/posts/${params.id}`),
+          fetch(`https://social-activity-server.vercel.app/posts/${params.id}`),
       },
       {
         path: "/message",
@@ -42,7 +42,7 @@ export const router = createBrowserRouter([
       {
         path: "/about",
         element: <About />,
-        loader: () => fetch("http://localhost:5000/about"),
+        loader: () => fetch("https://social-activity-server.vercel.app/about"),
       },
       {
         path: "/signin",

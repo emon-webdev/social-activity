@@ -4,7 +4,7 @@ import React from "react";
 const Loading = () => {
   return (
     <div className="h-[800px] flex justify-center items-center">
-      <CircularProgress isIndeterminate color="green.300" />
+      <CircularProgress isIndeterminate color="pink.300" />
     </div>
   );
 };

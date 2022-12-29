@@ -1,15 +1,24 @@
-import React, { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import React from "react";
 import AllPost from "../AllPost";
+import Loading from "../Shared/Loading";
 
 const TopPosts = () => {
-  const [topPosts, setTopPosts] = useState([]);
-  useEffect(() => {
-    fetch("http://localhost:5000/posts")
-      .then((res) => res.json())
-      .then((data) => {
-        setTopPosts(data);
-      });
-  }, []);
+
+  const { data: topPosts = [], isLoading } = useQuery({
+    queryKey: ["topPosts"],
+    queryFn: async () => {
+      const res = await fetch(
+        `https://social-activity-server.vercel.app/posts`
+      );
+      const data = res.json();
+      return data;
+    },
+  });
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="media-area">

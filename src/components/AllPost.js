@@ -12,7 +12,8 @@ import {
   Input,
   Text
 } from "@chakra-ui/react";
-import React, { useContext, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import React, { useContext } from "react";
 import { AiOutlineComment } from "react-icons/ai";
 import { BsFillShareFill, BsThreeDotsVertical } from "react-icons/bs";
 import { FcLike } from "react-icons/fc";
@@ -21,9 +22,75 @@ import { AuthContext } from "../context/AuthProvider";
 
 const AllPost = ({ posts }) => {
   const { user } = useContext(AuthContext);
-  const { img, userName, userEmail, _id, describe } = posts;
-  const [loveCount, setLoveCount] = useState(0);
-  const [comments, setComment] = useState("");
+  const { img, userName, userEmail, time, date, _id, describe } = posts;
+
+
+  //comment fetch
+  const { data: comments = [], refetch:reCommentFetch } = useQuery({
+    queryKey: ["comments", _id],
+    queryFn: async () => {
+      const res = await fetch(`http://localhost:5000/comments/${_id}`);
+      const data = res.json();
+      return data;
+    },
+  });
+
+  // comment fetch
+  const { data: reactions = [], refetch } = useQuery({
+    queryKey: ["reactions", _id],
+    queryFn: async () => {
+      const res = await fetch(`http://localhost:5000/reaction/${_id}`);
+      const data = res.json();
+      return data;
+    },
+  });
+
+
+  //handleReaction
+  const handleReaction = () => {
+    const reactInfo = {
+      postId: _id,
+      userName,
+      userEmail,
+    };
+
+    fetch("http://localhost:5000/reaction/", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(reactInfo),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        refetch()
+      });
+  };
+
+  // handle Comment
+  const handleComment = (e) => {
+    e.preventDefault();
+    const comment = e.target.comment.value;
+
+    const commentInfo = {
+      postId: _id,
+      comment,
+      userName,
+      userEmail,
+    };
+
+    fetch("http://localhost:5000/comment/", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(commentInfo),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        reCommentFetch()
+      });
+  };
 
   return (
     <div className="post-area mx-auto pb-12">
@@ -44,7 +111,9 @@ const AllPost = ({ posts }) => {
 
                   <Box>
                     <Heading size="sm">{userName}</Heading>
-                    <Text>{userEmail}</Text>
+                    <Text>
+                      {time} {date}
+                    </Text>
                   </Box>
                 </Flex>
                 {/* <IconButton icon={<BsThreeDotsVertical />} /> */}
@@ -76,17 +145,13 @@ const AllPost = ({ posts }) => {
                 },
               }}
             >
-              <Button
-                onClick={() => setLoveCount(loveCount + 1)}
-                flex="1"
-                variant="ghost"
-              >
+              <Button onClick={handleReaction} flex="1" variant="ghost">
                 <FcLike
                   variant="ghost"
                   colorScheme="gray"
                   aria-label="See menu"
                 />
-                Love {loveCount}
+                Love {reactions?.length}
               </Button>
               <Button flex="1" variant="ghost">
                 <AiOutlineComment
@@ -118,25 +183,30 @@ const AllPost = ({ posts }) => {
                 },
               }}
             >
-              <Input
-                onChange={(e) => setComment(e.target.value)}
-                className="mb-2"
-                name="comment"
-                pr=""
-                type="text"
-                placeholder="Comment"
-              />
-              {/* <br /> */}
-              <Button
-                style={{ background: "#d53f8c", color: "white" }}
-                type="submit"
-                colorScheme="pink"
-                size="xs"
-              >
-                Add Comment
-              </Button>
+              <form onSubmit={handleComment}>
+                <Input
+                  className="mb-2"
+                  name="comment"
+                  pr=""
+                  required
+                  type="text"
+                  placeholder="Comment"
+                />
+                {/* <br /> */}
+                <Button
+                  style={{ background: "#d53f8c", color: "white" }}
+                  type="submit"
+                  colorScheme="pink"
+                  size="xs"
+                >
+                  Add Comment
+                </Button>
+              </form>
             </div>
           </Card>
+          {comments?.map((c) => (
+            <p>{c.comment}</p>
+          ))}
         </div>
       </div>
     </div>

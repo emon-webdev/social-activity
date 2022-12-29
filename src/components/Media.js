@@ -15,7 +15,7 @@ const Media = () => {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {allPost?.map((posts) => (
-            <AllPost key={posts.id} posts={posts} />
+            <AllPost key={posts?.id} posts={posts} />
           ))}
         </div>
       </div>

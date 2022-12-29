@@ -18,3 +18,9 @@ code {
   min-width: 300px !important;
   min-height: 570px !important;
 }
+.drop-shadow-sm {
+  filter: none !important;
+}
+.css-4ie1he {
+  z-index: -1 !important;
+}

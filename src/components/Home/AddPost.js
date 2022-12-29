@@ -8,6 +8,7 @@ import {
   CardHeader,
   Flex,
   Heading,
+  Input,
   Text,
   Textarea
 } from "@chakra-ui/react";
@@ -15,6 +16,7 @@ import { format } from "date-fns";
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
+import { AiOutlineComment } from "react-icons/ai";
 import { BsCheckLg, BsThreeDotsVertical } from "react-icons/bs";
 import { FcLike } from "react-icons/fc";
 import { AuthContext } from "../../context/AuthProvider";
@@ -33,11 +35,12 @@ const AddPost = () => {
   const imageHostKey = process.env.REACT_APP_IMGBB_KEY;
   let [postDescription, setPostDescription] = React.useState("");
   const [loveCount, setLoveCount] = useState(0);
-  console.log(loveCount);
+  const [comments, setComment] = useState("");
   let handleInputChange = (e) => {
     let inputValue = e.target.value;
     setPostDescription(inputValue);
   };
+
 
   const handleAddProduct = (data) => {
     const image = data.image[0];
@@ -59,6 +62,7 @@ const AddPost = () => {
             img: imgData.data.url,
             describe: postDescription,
             reaction: 0,
+            comment: comments,
           };
           console.log(postInfo);
           //save information to the database
@@ -85,7 +89,7 @@ const AddPost = () => {
       </h2>
       <div>
         <form onSubmit={handleSubmit(handleAddProduct)}>
-          <Card className="mx-auto" maxW="md">
+          <Card className="mx-auto" maxW="lg">
             <CardHeader>
               <Flex spacing="4">
                 <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
@@ -172,6 +176,14 @@ const AddPost = () => {
                 />
                 Love {loveCount}
               </Button>
+              <Button disabled flex="1" variant="ghost">
+                <AiOutlineComment
+                  variant="ghost"
+                  colorScheme="gray"
+                  aria-label="See menu"
+                />
+                Comment
+              </Button>
 
               {user?.uid ? (
                 <Button
@@ -203,16 +215,39 @@ const AddPost = () => {
                   Please Sign In
                 </Button>
               )}
-
-              {/* <Button flex="1" variant="ghost">
-              <BiShare
-                variant="ghost"
-                colorScheme="gray"
-                aria-label="See menu"
-              />
-              Share
-            </Button> */}
             </CardFooter>
+            {/* //comment */}
+            <div
+              // style={{ display: "none !important" }}
+              justify="space-between"
+              flexWrap="wrap"
+              className="px-5 py-3"
+              sx={{
+                "& > button": {
+                  minW: "136px",
+                },
+              }}
+            >
+              <Input
+                onChange={(e) => setComment(e.target.value)}
+                className="mb-2"
+                name="comment"
+                pr="4.5rem"
+                type="text"
+                placeholder="Comment"
+                disabled
+              />
+              {/* <br /> */}
+              <Button
+                style={{ background: "#d53f8c", color: "white" }}
+                type="submit"
+                colorScheme="pink"
+                size="xs"
+                disabled
+              >
+                Add Comment
+              </Button>
+            </div>
           </Card>
         </form>
       </div>

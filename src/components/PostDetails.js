@@ -12,7 +12,7 @@ import {
   Text
 } from "@chakra-ui/react";
 import React, { useContext } from "react";
-import { AiOutlineWechat } from "react-icons/ai";
+import { AiOutlineComment } from "react-icons/ai";
 import { BsFillShareFill, BsThreeDotsVertical } from "react-icons/bs";
 import { FcLike } from "react-icons/fc";
 import { useLoaderData } from "react-router-dom";
@@ -87,7 +87,7 @@ const PostDetails = () => {
               Love
             </Button>
             <Button flex="1" variant="ghost">
-              <AiOutlineWechat
+              <AiOutlineComment
                 variant="ghost"
                 colorScheme="gray"
                 aria-label="See menu"

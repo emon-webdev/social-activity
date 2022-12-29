@@ -3,7 +3,6 @@ import {
   Menu,
   MenuButton,
   MenuGroup,
-  MenuItem,
   MenuList
 } from "@chakra-ui/react";
 import React, { useContext } from "react";
@@ -118,20 +117,61 @@ const Header = () => {
               Profile
             </MenuButton>
             <MenuList>
-              <MenuGroup title="Profile">
-                <MenuItem>My Account</MenuItem>
-                <MenuItem>Payments </MenuItem>
-                <MenuItem>Docs</MenuItem>
-                <MenuItem>
-                  <NavLink
-                    to="/signin"
-                    style={({ isActive }) =>
-                      isActive ? activeClass : undefined
-                    }
-                  >
-                    Sign In
-                  </NavLink>
-                </MenuItem>
+              <MenuGroup>
+                <NavLink
+                  className="block p-2 border-b border-[#D53F8C]"
+                  to="/media"
+                  style={({ isActive }) => (isActive ? activeClass : undefined)}
+                >
+                  Media
+                </NavLink>
+                <NavLink
+                  className="block p-2 border-b border-[#D53F8C]"
+                  to="/message"
+                  style={({ isActive }) => (isActive ? activeClass : undefined)}
+                >
+                  Message
+                </NavLink>
+                <NavLink
+                  className="block p-2 border-b border-[#D53F8C]"
+                  to="/about"
+                  style={({ isActive }) => (isActive ? activeClass : undefined)}
+                >
+                  About
+                </NavLink>
+                {user?.email ? (
+                  <>
+                    <NavLink
+                      className="block p-2 border-b border-[#D53F8C]"
+                      style={({ isActive }) =>
+                        isActive ? activeClass : undefined
+                      }
+                    >
+                      <button onClick={handleSignOut}>Sign Out</button>
+                    </NavLink>
+                  </>
+                ) : (
+                  <>
+                    <NavLink
+                      className="block p-2"
+                      to="/signin"
+                      style={({ isActive }) =>
+                        isActive ? activeClass : undefined
+                      }
+                    >
+                      Sign In
+                    </NavLink>
+                    <NavLink
+                      className="block p-2 border-b border-[#D53F8C]"
+                      to="/signup"
+                      style={({ isActive }) =>
+                        isActive ? activeClass : undefined
+                      }
+                    >
+                      Sign Up
+                    </NavLink>
+                  </>
+                )}
               </MenuGroup>
             </MenuList>
           </Menu>

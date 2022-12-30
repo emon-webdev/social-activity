@@ -72,3 +72,52 @@ h6 {
   border: 1px solid #d53f8c;
   color: #d53f8c;
 }
+.navbar__menu {
+  @apply flex flex-wrap items-center justify-between lg:flex-nowrap lg:justify-start;
+}
+.navbar-brand {
+  @apply w-20;
+}
+.navbar-toggler {
+  @apply p-2 lg:hidden;
+}
+.navbar-collapse {
+  @apply lg:flex basis-auto items-center flex-grow hidden;
+}
+.navbar-collapsed {
+  @apply basis-full grow items-center;
+}
+.navbar__nav {
+  @apply flex flex-col lg:flex-row ml-auto items-center;
+}
+.nav-link {
+  @apply px-5 lg:py-10 py-4 text-[#313131] text-lg font-normal rounded-sm hover:text-[#E91B25] block lg:inline-block relative
+  before:absolute before:left-0 before:bottom-0 before:w-0 before:h-[3px] before:bg-[#E91B25] hover:before:w-full before:ease-out before:duration-300 before:transition-all;
+}
+
+.navbar-nav li div {
+  @apply lg:inline-flex items-center lg:pl-3 block pl-0 text-center;
+}
+
+.file {
+  opacity: 0;
+  width: 0.1px;
+  height: 0.1px;
+  position: absolute;
+}
+.file-input label {
+  display: block;
+  position: relative;
+  width: 200px;
+  height: 50px;
+  border-radius: 25px;
+  background: linear-gradient(40deg, #ff6ec4, #7873f5);
+  box-shadow: 0 4px 7px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease-out;
+}

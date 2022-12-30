@@ -7,7 +7,8 @@ import {
   CardFooter,
   CardHeader,
   Flex,
-  Heading, Text,
+  Heading,
+  Text,
   Textarea
 } from "@chakra-ui/react";
 import { format } from "date-fns";
@@ -29,7 +30,7 @@ const AddPost = () => {
   const currentDate = new Date().getTime();
   const time = new Date(currentDate).toLocaleTimeString();
   const date = format(currentDate, "PP");
-console.log(date, time)
+  console.log(date, time);
   const { user } = useContext(AuthContext);
   const imageHostKey = process.env.REACT_APP_IMGBB_KEY;
   let [postDescription, setPostDescription] = React.useState("");
@@ -86,7 +87,13 @@ console.log(date, time)
           <Card className="mx-auto" maxW="lg">
             <CardHeader>
               <Flex spacing="4">
-                <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
+                <Flex
+                  flex="1"
+                  gap="4"
+                  className="card-head-post"
+                  alignItems="center"
+                  flexWrap="wrap"
+                >
                   <Avatar
                     name="Segun Adebayo"
                     src="https://bit.ly/sage-adebayo"
@@ -136,9 +143,6 @@ console.log(date, time)
                 className="input img-input input-bordered w-full"
               />
             </div>
-            {errors.image && (
-              <p className="text-red-600">{errors.image?.message}</p>
-            )}
             <CardBody>
               <Text mb="8px">{postDescription}</Text>
               <Textarea
@@ -160,11 +164,7 @@ console.log(date, time)
                 },
               }}
             >
-              <Button
-                flex="1"
-                variant="ghost"
-                disabled
-              >
+              <Button flex="1" variant="ghost" disabled>
                 <FcLike
                   variant="ghost"
                   colorScheme="gray"

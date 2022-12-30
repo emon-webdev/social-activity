@@ -55,7 +55,7 @@ console.log(date, time)
             time,
             userName: user?.displayName,
             userEmail: user?.email,
-            img: imgData.data.url,
+            img: imgData?.data.url,
             describe: postDescription,
           };
           console.log(postInfo);

@@ -1,12 +1,14 @@
 import React from "react";
+import HomeBanner from "../Banner/HomeBanner";
 import AddPost from "./AddPost";
 import TopPosts from "./TopPosts";
 
 const Home = () => {
   return (
-    <div className="container">
+    <div>
+      <HomeBanner />
       <AddPost />
-      <TopPosts/>
+      <TopPosts />
     </div>
   );
 };

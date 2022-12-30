@@ -4,7 +4,6 @@ import AllPost from "../AllPost";
 import Loading from "../Shared/Loading";
 
 const TopPosts = () => {
-
   const { data: topPosts = [], isLoading } = useQuery({
     queryKey: ["topPosts"],
     queryFn: async () => {
@@ -26,9 +25,9 @@ const TopPosts = () => {
         <h2 className="font-bold text-center py-5 my-6  text-4xl">
           Special <span className="text-[#D53F8C]">Posts</span>
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {topPosts.slice(0, 3)?.map((posts) => (
-            <AllPost key={posts.id} posts={posts} />
+        <div className="mx-auto">
+          {topPosts?.slice(0, 3)?.map((posts) => (
+            <AllPost key={posts?._id} posts={posts} />
           ))}
         </div>
       </div>

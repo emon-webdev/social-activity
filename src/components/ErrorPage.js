@@ -17,7 +17,7 @@ const ErrorPage = () => {
               to="/"
               rel="noopener noreferrer"
               href="#"
-              className="primary-btn"
+              style={{background:'#D53F8C'}}
             >
               Back to homepage
             </Link>

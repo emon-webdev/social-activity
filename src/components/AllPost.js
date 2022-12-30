@@ -25,26 +25,25 @@ const AllPost = ({ posts }) => {
   const { img, userName, userEmail, time, date, _id, describe } = posts;
 
 
-  //comment fetch
-  const { data: comments = [], refetch:reCommentFetch } = useQuery({
+  // //comment fetch
+  const { data: comments = [], refetch: reCommentFetch } = useQuery({
     queryKey: ["comments", _id],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/comments/${_id}`);
+      const res = await fetch(`https://social-activity-server.vercel.app/comments/${_id}`);
       const data = res.json();
       return data;
     },
   });
 
   // comment fetch
-  const { data: reactions = [], refetch } = useQuery({
+  const { data: reactions = [], refetch: reactReFetch } = useQuery({
     queryKey: ["reactions", _id],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/reaction/${_id}`);
+      const res = await fetch(`https://social-activity-server.vercel.app/reaction/${_id}`);
       const data = res.json();
       return data;
     },
   });
-
 
   //handleReaction
   const handleReaction = () => {
@@ -54,7 +53,7 @@ const AllPost = ({ posts }) => {
       userEmail,
     };
 
-    fetch("http://localhost:5000/reaction/", {
+    fetch("https://social-activity-server.vercel.app/reaction/", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -63,7 +62,7 @@ const AllPost = ({ posts }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        refetch()
+        reactReFetch();
       });
   };
 
@@ -79,7 +78,7 @@ const AllPost = ({ posts }) => {
       userEmail,
     };
 
-    fetch("http://localhost:5000/comment/", {
+    fetch("https://social-activity-server.vercel.app/comment/", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -88,7 +87,7 @@ const AllPost = ({ posts }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        reCommentFetch()
+        reCommentFetch();
       });
   };
 
@@ -96,7 +95,7 @@ const AllPost = ({ posts }) => {
     <div className="post-area mx-auto pb-12">
       <div>
         <div>
-          <Card className="mx-auto post-card" maxW="md">
+          <Card className="mx-auto post-card" maxW="lg">
             <CardHeader>
               <Flex spacing="4">
                 <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
@@ -203,10 +202,16 @@ const AllPost = ({ posts }) => {
                 </Button>
               </form>
             </div>
+            {/* comments here */}
+            <div className="p-2 ">
+              {comments?.map((c) => (
+                <div key={c?._id} className="flex gap-2 p-3 bg-gray-100">
+                  <p className="mr-1 font-bold">{c?.userName}: </p>
+                  <p> {c?.comment}</p>
+                </div>
+              ))}
+            </div>
           </Card>
-          {comments?.map((c) => (
-            <p>{c.comment}</p>
-          ))}
         </div>
       </div>
     </div>
